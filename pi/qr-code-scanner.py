@@ -5,7 +5,7 @@ import time
 import cv2
 
 displayVideoWindow = False
-onRaspberryPi = False
+onRaspberryPi = True
 
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")
