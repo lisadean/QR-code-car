@@ -1,3 +1,5 @@
+# Written using tutorial at https://www.pyimagesearch.com/2018/05/21/an-opencv-barcode-and-qr-code-scanner-with-zbar/
+
 from imutils.video import VideoStream
 from pyzbar import pyzbar
 import argparse
