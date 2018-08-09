@@ -7,6 +7,7 @@ import datetime
 import imutils
 import time
 import cv2
+import keyboard
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -16,7 +17,7 @@ args = vars(ap.parse_args())
 
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")
-vs = VideoStream(src=1).start()
+vs = VideoStream(src=0).start()
 # vs = VideoStream(usePiCamera=True).start()
 time.sleep(2.0)
 
@@ -66,11 +67,13 @@ while True:
             found.add(barcodeData)
 
     # show the output frame
-    cv2.imshow("Barcode Scanner", frame)
-    key = cv2.waitKey(1) & 0xFF
+    #cv2.imshow("Barcode Scanner", frame)
+    #key = cv2.waitKey(1) & 0xFF
 
     # if the `q` key was pressed, break from the loop
-    if key == ord("q"):
+    #if key == ord("q"):
+    #    break
+    if keyboard.is_pressed('q'):
         break
 
 # close the output CSV file & cleanup
