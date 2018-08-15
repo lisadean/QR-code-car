@@ -8,6 +8,7 @@ from datetime import datetime
 from datetime import timedelta
 import requests
 
+api_url = 'http://codebot.lisadean.net/project/latest'
 last_send = datetime.now() - timedelta(seconds=60)
 last_barcode = ''
 
@@ -66,7 +67,7 @@ while True:
             last_send = datetime.now()
             if isinstance(int(barcodeData), int):
                 r = requests.post(
-                    'http://qrcodebotapi.lisadean.net/project/latest',
+                    api_url,
                     params={'id': last_barcode}
                     )
                 print(r.url)
