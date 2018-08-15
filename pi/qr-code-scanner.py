@@ -4,6 +4,12 @@ import argparse
 import imutils
 import time
 import cv2
+from datetime import datetime
+from datetime import timedelta
+import requests
+
+last_send = datetime.now() - timedelta(seconds=60)
+last_barcode = ''
 
 # parse arguments
 ap = argparse.ArgumentParser()
@@ -22,11 +28,13 @@ else:
 vs = VideoStream(src=source).start()
 time.sleep(2.0)
 
-# Set of unique barcodes found so far
-found = set()
-
 # loop over the frames from the video stream
 while True:
+
+    if last_send < (datetime.now() - timedelta(seconds=10)):
+        # print("10 seconds have passed" + str(datetime.now()))
+        last_barcode = ''
+
     # grab the fram from the threaded video stream and resize it to have a
     # maximum width of 400 pixels
     frame = vs.read()
@@ -52,9 +60,17 @@ while True:
             cv2.putText(frame, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX,
                         0.5, (0, 0, 255), 2)
 
-        if barcodeData not in found:
+        if barcodeData != last_barcode:
             print("[INFO] Found barcode: {}".format(barcodeData))
-            found.add(barcodeData)
+            last_barcode = barcodeData
+            last_send = datetime.now()
+            if isinstance(int(barcodeData), int):
+                r = requests.post(
+                    'http://qrcodebotapi.lisadean.net/project/latest',
+                    params={'id': last_barcode}
+                    )
+                print(r.url)
+                print(r.status_code, r.reason)
 
     if displayVideoWindow:
         # show the output frame

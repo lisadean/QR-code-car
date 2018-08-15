@@ -33,15 +33,17 @@ app.get('/project/:id', (req, res) => {
 
 app.post('/project/latest', (req, res) => {
   let id = req.query.id;
-  db.addQRCodeVisit(id)
-    .then(data => {
-      console.log(data);
-      res.send(data);
-    })
-    .catch(data => {
-      res.send('Error in POST');
-      console.error(data);
-    });
+  if(typeof id == 'number') {
+    db.addQRCodeVisit(id)
+      .then(data => {
+        console.log(data);
+        res.send(data);
+      })
+      .catch(data => {
+        res.send('Error in POST');
+        console.error(data);
+      });
+  }
 });
 
 function getProjectInfo(id, data, res) {
