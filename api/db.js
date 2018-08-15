@@ -23,7 +23,7 @@ function addQRCodeVisit(id) {
 }
 
 function getLatestQRCode() {
-  return db.one('SELECT projectid, visit_time FROM qrcodevisits WHERE visit_time = \
+  return db.oneOrNone('SELECT projectid, visit_time FROM qrcodevisits WHERE visit_time = \
                 (SELECT MAX(visit_time) FROM qrcodevisits);');
 }
 

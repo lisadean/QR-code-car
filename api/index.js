@@ -15,8 +15,12 @@ app.get('/', (req, res) => {
 app.get('/project/latest', (req, res) => {
   db.getLatestQRCode()
     .then(data => {
-      let id = data.projectid;
-      getProjectInfo(id, data, res);
+      if(data) {
+        let id = data.projectid;
+        getProjectInfo(id, data, res);
+      } else {
+        res.send({});
+      }
     })
     .catch(console.error);
 });
