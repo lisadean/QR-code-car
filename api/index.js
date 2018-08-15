@@ -33,16 +33,27 @@ app.get('/project/:id', (req, res) => {
 
 app.post('/project/latest', (req, res) => {
   let id = req.query.id;
-  if(typeof id == 'number') {
-    db.addQRCodeVisit(id)
+  if(parseInt(id)) {
+    db.getProject(id)
       .then(data => {
-        console.log(data);
-        res.send(data);
+        console.log('here');
+        if(data) {
+          db.addQRCodeVisit(id)
+            .then(data => {
+              console.log(data);
+              res.send(data);
+            })
+            .catch(data => {
+              res.send('Error in POST');
+              console.error(data);
+            });
+        } else {
+          res.send('Error in POST: id not found');
+        }
       })
-      .catch(data => {
-        res.send('Error in POST');
-        console.error(data);
-      });
+      .catch(console.error);
+  } else {
+    res.send('Error in POST: not a number');
   }
 });
 
