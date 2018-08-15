@@ -3,13 +3,21 @@ dotenv.config();
 PORT = process.env.PORT;
 
 const db = require('./db');
+
 const express = require('express');
 const app = express();
+const http = require('http').Server(app);
+var io = require('socket.io')(http);
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
+
 app.get('/', (req, res) => {
-  res.send('Go away');
+  res.sendFile(__dirname + '/index.html');
 });
 
 app.get('/project/latest', (req, res) => {
@@ -17,7 +25,11 @@ app.get('/project/latest', (req, res) => {
     .then(data => {
       if(data) {
         let id = data.projectid;
-        getProjectInfo(id, data, res);
+        getProjectInfo(id)
+          .then(data => {
+            res.send(data);
+          })
+          .catch(console.error);
       } else {
         res.send({});
       }
@@ -27,8 +39,11 @@ app.get('/project/latest', (req, res) => {
 
 app.get('/project/:id', (req, res) => {
   let id = req.params.id;
-  data = {};
-  getProjectInfo(id, data, res);  
+  getProjectInfo(id)
+    .then(data => {
+      res.send(data);
+    })
+    .catch(console.error);
 });
 
 app.post('/project/latest', (req, res) => {
@@ -36,12 +51,12 @@ app.post('/project/latest', (req, res) => {
   if(parseInt(id)) {
     db.getProject(id)
       .then(data => {
-        console.log('here');
         if(data) {
           db.addQRCodeVisit(id)
             .then(data => {
               console.log(data);
               res.send(data);
+              updateDisplay();
             })
             .catch(data => {
               res.send('Error in POST');
@@ -57,18 +72,26 @@ app.post('/project/latest', (req, res) => {
   }
 });
 
-function getProjectInfo(id, data, res) {
+function getProjectInfo(id) {
   let project = db.getProject(id);
   let members = db.getProjectMembers(id);
-  Promise.all([project, members])
-    .then(moreData => {
-      data.project = moreData[0];
-      data.members = moreData[1];
-      res.send(data);
+  return Promise.all([project, members])
+}
+// getProjectInfo(1)
+//   .then(console.log);
+
+function updateDisplay() {
+  db.getLatestQRCode()
+    .then(data => {
+      let id = data.projectid;
+      getProjectInfo(id)
+        .then(data => {
+          io.emit('chat message', JSON.stringify(data));
+        })
     })
     .catch(console.error);
 }
 
-app.listen(PORT, () => {
+http.listen(PORT, () => {
   console.log(`Application running at http://localhost:${PORT}`);
 });
