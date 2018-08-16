@@ -89,7 +89,11 @@ function updateDisplay() {
       let id = data.projectid;
       getProjectInfo(id)
         .then(data => {
-          io.emit('chat message', JSON.stringify(data));
+          let newData = {};
+          newData.title = data[0].title;
+          newData.description = data[0].description;
+          newData.members = data[1];
+          io.emit('qr update', JSON.stringify(newData));
         })
     })
     .catch(console.error);
