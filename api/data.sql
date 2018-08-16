@@ -4,7 +4,7 @@ VALUES
 (2, 'SmartCar-R', 'Arduino-controlled robot'),
 (3, 'Raspberry Pitch  Perfect / Raspberry Assistant', 'Using a Yeti USB Microphone and python scripts saved to a raspberry pi mini-computer, I am able to detect pitches. By connecting the Google Assistant API to my Raspberry Pi, I may issue commands for my Google Assistant to run to the best of it’s ability.'),
 (4, 'BevSimply', 'Where business users and entrepreneurs go to make beverage inventory a breeze! Simply login to the app, and add areas, sections, and beverages for your business. With a few clicks your inventory is done giving you the option to view the most recent data. BevSimply, where all your vendor management needs are met.'),
-(5, 'BunkerLabsATL.org', ''),
+(5, 'BunkerLabsATL.org', 'Space where users can view and connect with veteran-owned businesses. Even though each business is unique, they all share a common trait in being owned or managed by a military veteran here in Atlanta.'),
 (6, 'Shakedown', 'At Shakedown, we are all about helping you get outside, faster. Whether youre brand new to hiking or youre seasoned hiker trash (an embraced term given to thru-hikers), we want to help you keep track of your gear and lighten the load you carry. You’ll be surprised how much pack weight can effect your backpacking experience.
     Check out some of our suggested checklists for different hikes. Keep inventory of the gear you already own. Mix and match your gear in our “Build your pack” feature, and see how much your pack weighs.
     Pack it up. Shake it down. Get outside.
