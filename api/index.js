@@ -12,12 +12,15 @@ var io = require('socket.io')(http);
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 
+const static = express.static;
+app.use(static('public'));
+
 io.on('connection', function(socket){
   console.log('a user connected');
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 app.get('/project/latest', (req, res) => {
@@ -86,7 +89,11 @@ function updateDisplay() {
       let id = data.projectid;
       getProjectInfo(id)
         .then(data => {
-          io.emit('chat message', JSON.stringify(data));
+          let newData = {};
+          newData.title = data[0].title;
+          newData.description = data[0].description;
+          newData.members = data[1];
+          io.emit('qr update', JSON.stringify(newData));
         })
     })
     .catch(console.error);
