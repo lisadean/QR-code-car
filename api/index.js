@@ -12,12 +12,15 @@ var io = require('socket.io')(http);
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 
+const static = express.static;
+app.use(static('public'));
+
 io.on('connection', function(socket){
   console.log('a user connected');
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 app.get('/project/latest', (req, res) => {
