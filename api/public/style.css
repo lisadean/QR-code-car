@@ -69,6 +69,14 @@ html {
   font-family: 'Electrolize', sans-serif;
 }
 
+.initial-message {
+  font-size: 2em;
+}
+
+.title {
+  font-size: 1.25em;
+}
+
 /* Link defaults */
 
 a:link, a:visited{

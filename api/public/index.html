@@ -6,11 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>QR CodeBot</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
   <link rel="stylesheet" href="/style.css">
-  <!-- <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great" rel="stylesheet"> -->
-  <!-- <link href="https://fonts.googleapis.com/css?family=Black+Ops+One" rel="stylesheet"> -->
-  <!-- <link href="https://fonts.googleapis.com/css?family=Bungee+Inline" rel="stylesheet"> -->
   <link href="https://fonts.googleapis.com/css?family=Electrolize" rel="stylesheet">
 </head>
   <body>
@@ -20,7 +16,10 @@
       <div class="content">
           <div class="header">QR CodeBot</div>
           <div class="project" data-project>
-            <div class="title">Shakedown</div>
+
+            <div class="initial-message">Scan a QR code with the car to get started.</div>
+            
+            <!-- <div class="title">Shakedown</div>
             <div class="description">
               <p>At Shakedown, we are all about helping you get outside, faster. Whether you're brand new to hiking or you're seasoned hiker trash (an embraced term given to thru-hikers), we want to help you keep track of your gear and lighten the load you carry. You’ll be surprised how much pack weight can effect your backpacking experience.</p>
               <p>Check out some of our suggested checklists for different hikes. Keep inventory of the gear you already own. Mix and match your gear in our “Build your pack” feature, and see how much your pack weighs.</p>
@@ -32,19 +31,15 @@
                 <li>Aylin DeBruyne</li>
                 <li>Beth D’Amato</li>
               </ul>
-            </div>
+            </div> -->
+
           </div>
       </div>
 
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      var socket = io();
-      socket.on('chat message', function(msg){
-        document.querySelector('[data-project]').textContent = msg;
-      });
-    </script>
+    <script src="/script.js"></script>
 
   </body>
 </html>
