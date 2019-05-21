@@ -1,12 +1,19 @@
+const url = require('url');
 const pgp = require('pg-promise')();
-const cn = {
-  host: 'localhost',
-  port: 5432,
-  database: 'qr-codebot',
-  user: process.env.DB_USER,
-  password: '',
+
+const cn = () => {
+  const params = url.parse(process.env.DATABASE_URL);
+  const auth = params.auth.split(':');
+  return {
+    user: auth[0],
+    password: auth[1],
+    host: params.hostname,
+    port: params.port,
+    database: params.pathname.split('/')[1],
+    ssl: process.env.NODE_ENV === 'production',
+  };
 };
-const db = pgp(cn);
+const db = pgp(cn());
 
 function getProject(id) {
   return db.oneOrNone(
