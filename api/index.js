@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const static = express.static;
 app.use(static('public'));
 
-io.on('connection', function(socket){
+io.on('connection', function(socket) {
   console.log('a user connected');
 });
 
@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 app.get('/project/latest', (req, res) => {
   db.getLatestQRCode()
     .then(data => {
-      if(data) {
+      if (data) {
         let id = data.projectid;
         getProjectInfo(id)
           .then(data => {
@@ -51,10 +51,10 @@ app.get('/project/:id', (req, res) => {
 
 app.post('/project/latest', (req, res) => {
   let id = req.query.id;
-  if(parseInt(id)) {
+  if (parseInt(id)) {
     db.getProject(id)
       .then(data => {
-        if(data) {
+        if (data) {
           db.addQRCodeVisit(id)
             .then(data => {
               console.log(data);
@@ -78,7 +78,7 @@ app.post('/project/latest', (req, res) => {
 function getProjectInfo(id) {
   let project = db.getProject(id);
   let members = db.getProjectMembers(id);
-  return Promise.all([project, members])
+  return Promise.all([project, members]);
 }
 // getProjectInfo(1)
 //   .then(console.log);
@@ -87,14 +87,13 @@ function updateDisplay() {
   db.getLatestQRCode()
     .then(data => {
       let id = data.projectid;
-      getProjectInfo(id)
-        .then(data => {
-          let newData = {};
-          newData.title = data[0].title;
-          newData.description = data[0].description;
-          newData.members = data[1];
-          io.emit('qr update', JSON.stringify(newData));
-        })
+      getProjectInfo(id).then(data => {
+        let newData = {};
+        newData.title = data[0].title;
+        newData.description = data[0].description;
+        newData.members = data[1];
+        io.emit('qr update', JSON.stringify(newData));
+      });
     })
     .catch(console.error);
 }
